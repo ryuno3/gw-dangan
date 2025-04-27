@@ -1,26 +1,12 @@
 package com.example.GwDanganApp.Repositories.tasks;
 
-import java.util.List;
-
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import com.example.GwDanganApp.models.tasks.Task;
 
-public class TaskRepository implements Interface {
-    // Implement the methods defined in the Interface
-    @Override
-    public void addTask(Task task) {
-        // Implementation for adding a task
-    }
+@Repository
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    @Override
-    public Task getTaskById(int taskId) {
-        // Implementation for getting a task by ID
-        return null;
-    }
-
-    @Override
-    public List<Task> getAllTasks() {
-        // Implementation for getting all tasks
-        return null;
-    }
-    
+    // 基本的なCRUD操作はJpaRepositoryで提供されます
+    // 必要に応じてカスタムクエリメソッドを追加できます
 }

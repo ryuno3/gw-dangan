@@ -1,5 +1,3 @@
-import 'package:http/http.dart';
-
 class Task {
   final int id; // タスクを一意に識別するためのID
   final String name; // タスクのタイトル
@@ -17,28 +15,23 @@ class Task {
     this.isCompleted = false, // デフォルト値としてfalseを設定
   });
 
-  // JSONからTaskを生成するファクトリメソッド - null安全性を強化
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      id: json['id'] ?? 0,
-      name: json['title'] ??
-          json['name'] ??
-          '無題のタスク', // title または name フィールドを受け入れる
-      description: json['description'] ?? '',
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+
       // JSONから取得した値がnullの場合はデフォルト値を使用
       status: json['status'] ?? 'TODO',
       priority: json['priority'] ?? 'MEDIUM',
-      isCompleted: json['isCompleted'] ??
-          json['completed'] ??
-          false, // isCompleted または completed フィールドを受け入れる
+      isCompleted: json['isCompleted'] ?? false,
     );
   }
 
-  // TaskをJSON形式に変換するメソッド
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'title': name, // APIが期待するフィールド名に合わせる
+      'name': name,
       'description': description,
       'status': status,
       'priority': priority,

@@ -5,8 +5,8 @@ import 'package:gw_dangan/presentation/widgets/tasks/view/error_view.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/view/todo_list_view.dart';
 import 'package:gw_dangan/providers/tasks/tasks_notifier.dart';
 
-class TodoListWedget extends ConsumerWidget {
-  const TodoListWedget({super.key});
+class TodoListWidget extends ConsumerWidget {
+  const TodoListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,17 +24,23 @@ class TodoListWedget extends ConsumerWidget {
         ],
       ),
       body: RefreshIndicator(
-          onRefresh: () => ref.read(tasksProvider.notifier).fetchAllTasks(),
-          child: tasksAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) => ErrorView(
-              error: error,
-              onRetry: () => ref.read(tasksProvider.notifier).fetchAllTasks(),
-            ),
-            data: (tasks) => tasks.isEmpty
-                ? const EmptyListView(message: 'タスクがありません。')
-                : TodoListView(tasks: tasks),
-          )),
+        onRefresh: () => ref.read(tasksProvider.notifier).fetchAllTasks(),
+        child: tasksAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => ErrorView(
+            error: error,
+            onRetry: () => ref.read(tasksProvider.notifier).fetchAllTasks(),
+          ),
+          data: (tasks) => tasks.isEmpty
+              ? EmptyListView(
+                  message: 'タスクがありません。',
+                  onRefresh: () =>
+                      ref.read(tasksProvider.notifier).fetchAllTasks(),
+                  refreshButtonText: '再読み込み',
+                )
+              : TodoListView(tasks: tasks),
+        ),
+      ),
     );
   }
 }

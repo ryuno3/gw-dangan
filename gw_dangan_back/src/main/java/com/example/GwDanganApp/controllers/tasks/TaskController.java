@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.GwDanganApp.Repositories.tasks.TaskRepository;
 import com.example.GwDanganApp.models.tasks.Task;
 import com.example.GwDanganApp.services.tasks.TaskService;
 

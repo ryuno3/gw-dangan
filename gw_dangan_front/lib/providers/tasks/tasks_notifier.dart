@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gw_dangan/models/tasks/create_task.dart';
 import 'package:gw_dangan/models/tasks/task.dart';
 import 'package:gw_dangan/repositories/task_repository.dart';
 
@@ -35,13 +36,35 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
     }
   }
 
+  // タスクを追加する関数
+  Future<void> createTask(CreateTaskDto params) async {
+    try {
+      final previousState = state;
+
+      await _repository.createTask(params);
+
+      // 楽観的更新
+      if (previousState is AsyncData<List<Task>>) {
+        final updatedTasks = [...previousState.value, params.toTask()];
+        state = AsyncValue.data(updatedTasks);
+      }
+
+      await fetchAllTasks();
+    } catch (e) {
+      debugPrint('[Provider]createでエラーが発生しました: $e');
+      // エラーが発生した場合は、エラー状態を設定
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
   // タスクを削除する関数
   Future<void> deleteTask(int id) async {
     try {
       final previousState = state;
 
       await _repository.deleteTask(id);
-      // タスクを再取得して状態を更新
+
+      // 楽観的更新
       if (previousState is AsyncData<List<Task>>) {
         final updatedTasks =
             previousState.value.where((task) => task.id != id).toList();

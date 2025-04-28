@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gw_dangan/models/tasks/task.dart';
-import 'package:gw_dangan/presentation/widgets/tasks/components/task_card.dart';
+import 'package:gw_dangan/presentation/widgets/tasks/components/dismissible_task_card.dart';
 
 class TodoListView extends StatelessWidget {
   final List<Task> tasks;
@@ -13,7 +13,8 @@ class TodoListView extends StatelessWidget {
       itemCount: tasks.length,
       padding: const EdgeInsets.all(8),
       itemBuilder: (context, index) {
-        return TaskCard(task: tasks[index]);
+        final task = tasks[index];
+        return DismissibleTaskCard(task: task);
       },
     );
   }

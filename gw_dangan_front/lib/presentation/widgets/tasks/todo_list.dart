@@ -29,15 +29,9 @@ class TodoListWidget extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stack) => ErrorView(
             error: error,
-            onRetry: () => ref.read(tasksProvider.notifier).fetchAllTasks(),
           ),
           data: (tasks) => tasks.isEmpty
-              ? EmptyListView(
-                  message: 'タスクがありません。',
-                  onRefresh: () =>
-                      ref.read(tasksProvider.notifier).fetchAllTasks(),
-                  refreshButtonText: '再読み込み',
-                )
+              ? const EmptyListView(message: 'タスクがありません。')
               : TodoListView(tasks: tasks),
         ),
       ),

@@ -1,18 +1,18 @@
 class Task {
-  final int id; // タスクを一意に識別するためのID
-  final String name; // タスクのタイトル
-  final String description; // タスクの詳細（オプション）
-  final String status; // タスクの状態（例: "TODO", "IN_PROGRESS", "DONE"）
-  final String priority; // タスクの優先度（例: "HIGH", "MEDIUM", "LOW"）
-  final bool isCompleted; // 完了フラグ
+  final int id;
+  final String name;
+  final String description;
+  final String status;
+  final String priority;
+  final bool isCompleted;
 
   Task({
     required this.id,
     required this.name,
     required this.description,
-    this.status = 'TODO', // デフォルト値として'TODO'を設定
-    this.priority = 'MEDIUM', // デフォルト値として'MEDIUM'を設定
-    this.isCompleted = false, // デフォルト値としてfalseを設定
+    required this.status,
+    required this.priority,
+    required this.isCompleted,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
@@ -20,11 +20,9 @@ class Task {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-
-      // JSONから取得した値がnullの場合はデフォルト値を使用
-      status: json['status'] ?? 'TODO',
-      priority: json['priority'] ?? 'MEDIUM',
-      isCompleted: json['isCompleted'] ?? false,
+      status: json['status'],
+      priority: json['priority'],
+      isCompleted: json['isCompleted'],
     );
   }
 

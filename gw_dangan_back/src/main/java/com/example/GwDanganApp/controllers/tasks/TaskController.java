@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.GwDanganApp.Repositories.tasks.TaskRepository;
 import com.example.GwDanganApp.models.tasks.Task;
 import com.example.GwDanganApp.services.tasks.TaskService;
 
@@ -33,6 +32,16 @@ public class TaskController {
         if (task != null) {
             return ResponseEntity.ok(task);
         }else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        try {
+            taskService.deleteTask(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }

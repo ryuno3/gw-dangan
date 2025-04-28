@@ -38,4 +38,14 @@ public class TaskService {
         }
         return taskRepository.save(task);
     }
+
+    public void deleteTask(Long id) {
+        Task task = getTaskById(id);
+        if (task == null) {
+            // レスポンスボディにエラーメッセージを含める
+            
+            throw new TaskNotFoundException("Task not found with id: " + id);
+        }
+        taskRepository.delete(task);
+    }
 }

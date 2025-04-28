@@ -8,29 +8,33 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.GwDanganApp.Repositories.tasks.TaskRepository;
 import com.example.GwDanganApp.models.tasks.Task;
+import com.example.GwDanganApp.services.tasks.TaskService;
 
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
     
     @Autowired
-    private TaskRepository taskRepository;
+    private TaskService taskService;
     
     @GetMapping
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        return taskService.getAllTasks();
     }
     
     @PostMapping
     public Task createTask(@RequestBody Task task) {
-        return taskRepository.save(task);
+        return taskService.createTask(task);
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
-        return taskRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Task task = taskService.getTaskById(id);
+        if (task != null) {
+            return ResponseEntity.ok(task);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
     
     // 他のエンドポイントも追加可能

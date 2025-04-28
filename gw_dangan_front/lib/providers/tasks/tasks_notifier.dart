@@ -31,7 +31,28 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
       state = AsyncValue.data(tasks);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
-      debugPrint('Providerでエラーが発生しました: $e');
+      debugPrint('[Provider]getAllでエラーが発生しました: $e');
+    }
+  }
+
+  // タスクを削除する関数
+  Future<void> deleteTask(int id) async {
+    try {
+      final previousState = state;
+
+      await _repository.deleteTask(id);
+      // タスクを再取得して状態を更新
+      if (previousState is AsyncData<List<Task>>) {
+        final updatedTasks =
+            previousState.value.where((task) => task.id != id).toList();
+        state = AsyncValue.data(updatedTasks);
+      }
+
+      await fetchAllTasks();
+    } catch (e) {
+      debugPrint('[Provider]deleteでエラーが発生しました: $e');
+      // エラーが発生した場合は、エラー状態を設定
+      state = AsyncValue.error(e, StackTrace.current);
     }
   }
 }

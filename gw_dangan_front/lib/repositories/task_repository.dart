@@ -23,4 +23,20 @@ class TaskRepository {
       throw Exception('サーバー通信中にエラーが発生しました: $e');
     }
   }
+
+  Future<void> deleteTask(int id) async {
+    try {
+      final res = await http.delete(Uri.parse('$baseUrl/tasks/$id'));
+
+      if (res.statusCode != 204) {
+        debugPrint('[Repository]delete時ステータスコード: ${res.statusCode}');
+
+        // 204 No Contentは成功を示すため、他のステータスコードはエラーとみなす
+        throw Exception('タスクの削除に失敗しました: ${res.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('[Repository]delete内trycatchでのエラー: $e');
+      throw Exception('サーバー通信中にエラーが発生しました: $e');
+    }
+  }
 }

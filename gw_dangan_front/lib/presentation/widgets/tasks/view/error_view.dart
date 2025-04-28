@@ -22,14 +22,6 @@ class ErrorView extends StatelessWidget {
             'エラーが発生しました',
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              error.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: onRetry,

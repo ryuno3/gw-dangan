@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 class ErrorView extends StatelessWidget {
   final Object error;
-  final VoidCallback onRetry;
 
   const ErrorView({
     super.key,
     required this.error,
-    required this.onRetry,
   });
 
   @override
@@ -23,11 +21,6 @@ class ErrorView extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 16),
-          ElevatedButton.icon(
-            onPressed: onRetry,
-            icon: const Icon(Icons.refresh),
-            label: const Text('再読み込み'),
-          ),
         ],
       ),
     );

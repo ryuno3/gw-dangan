@@ -1,9 +1,16 @@
 package com.example.GwDanganApp.models.tasks;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tasks")
@@ -16,6 +23,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "Task name is required")
     private String name;
     private String description;
     
@@ -28,7 +36,7 @@ public class Task {
     private Boolean isCompleted;
 
     public Task(String name, String description) {
-        this.name = name;
+         this.name = name;
         this.description = description;
         this.status = Status.NOT_STARTED;
         this.priority = Priority.LOW;

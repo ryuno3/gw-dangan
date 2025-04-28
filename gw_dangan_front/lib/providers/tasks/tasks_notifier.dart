@@ -31,7 +31,6 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
       state = AsyncValue.data(tasks);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
-      // エラーをキャッチしてログに出力
       debugPrint('Providerでエラーが発生しました: $e');
     }
   }

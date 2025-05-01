@@ -51,5 +51,9 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public void setRole(Set<Role> roles) {
+        this.roles = roles;
+    }
     
 }

@@ -24,10 +24,14 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private Erole name;
+    private ERole name;
 
-    public Role(Erole name) {
+    public Role(ERole name) {
         this.name = name;
+    }
+
+    public ERole getName() {
+        return name;
     }
     
 }

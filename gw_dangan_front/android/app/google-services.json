@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1021202692382",
+    "project_id": "gw-dangan-todo",
+    "storage_bucket": "gw-dangan-todo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021202692382:android:1c3abbe2fbd336dfdeb10f",
+        "android_client_info": {
+          "package_name": "com.example.gw_dangan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021202692382-29jvnov7cofunskd6aim0s4kuvmnb4vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeEz_J2EbUGjfn3j_JVoWTSiApVlTGq_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021202692382-29jvnov7cofunskd6aim0s4kuvmnb4vo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1021202692382-vfat5k2c09854lvidhkvul0coevkvqrt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gwDangan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

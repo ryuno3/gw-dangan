@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gw_dangan/presentation/widgets/auth/components/sign_out_button.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/components/add_task_button.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/view/empty_list_view.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/view/error_view.dart';
@@ -18,7 +19,7 @@ class TodoListWidget extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('TODOリスト'),
         actions: [
-          // タスク追加ボタンを追加
+          const SignOutButton(isIconButton: true),
           const AddTaskButton(),
           // 既存の更新ボタン
           IconButton(

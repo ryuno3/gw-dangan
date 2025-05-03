@@ -1,4 +1,4 @@
-package com.example.GwDanganApp.Repositories.tasks;
+package com.example.GwDanganApp.repositories.task;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

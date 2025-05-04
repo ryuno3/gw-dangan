@@ -4,6 +4,7 @@ import 'package:gw_dangan/presentation/screens/auth/sign_up_screen.dart';
 import 'package:gw_dangan/presentation/widgets/auth/view/auth_form.dart';
 import 'package:gw_dangan/presentation/widgets/auth/view/auth_header.dart';
 import 'package:gw_dangan/providers/auth/auth_provider.dart';
+import 'package:gw_dangan/providers/tasks/tasks_notifier.dart';
 
 class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});
@@ -29,6 +30,9 @@ class SignInScreen extends ConsumerWidget {
                     await ref.read(signInProvider(
                       SignInParams(email: email, password: password),
                     ).future);
+
+                    ref.read(tasksProvider.notifier).clearTasks();
+                    ref.read(tasksProvider.notifier).fetchAllTasks();
 
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(

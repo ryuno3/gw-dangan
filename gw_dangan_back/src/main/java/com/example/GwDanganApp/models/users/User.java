@@ -6,7 +6,6 @@ import java.util.List;
 import com.example.GwDanganApp.models.tasks.Task;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
 
 

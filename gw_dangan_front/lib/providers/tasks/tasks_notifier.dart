@@ -21,14 +21,20 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
   final TaskRepository _repository;
 
   TasksNotifier(this._repository) : super(const AsyncValue.loading()) {
-    fetchAllTasks();
+    // 初期化時は何もしない（自動取得しない）
   }
+
+  // タスクの状態をクリアする関数
+  void clearTasks() {
+    state = const AsyncValue.loading();
+  }
+
   // タスクを取得する関数
   Future<void> fetchAllTasks() async {
     state = const AsyncValue.loading();
 
     try {
-      final tasks = await _repository.fetchAllTasks();
+      final tasks = await _repository.fetchMyTasks();
       state = AsyncValue.data(tasks);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);

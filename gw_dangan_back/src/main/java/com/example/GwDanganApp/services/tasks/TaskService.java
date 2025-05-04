@@ -24,6 +24,10 @@ public class TaskService {
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + id));
     }
 
+    public List<Task> getTasksByAuthorId(String authorId) {
+        return taskRepository.findByAuthor_FirebaseUid(authorId);
+    }
+
     public Task createTask(Task task) {
         return taskRepository.save(task);
     }

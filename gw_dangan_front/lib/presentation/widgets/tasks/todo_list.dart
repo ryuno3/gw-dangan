@@ -6,6 +6,7 @@ import 'package:gw_dangan/presentation/widgets/tasks/view/empty_list_view.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/view/error_view.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/view/todo_list_view.dart';
 import 'package:gw_dangan/providers/tasks/tasks_notifier.dart';
+import 'package:gw_dangan/providers/tasks/user_tasks_provider.dart';
 
 class TodoListWidget extends ConsumerWidget {
   const TodoListWidget({super.key});
@@ -13,7 +14,7 @@ class TodoListWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // タスクの非同期状態を取得
-    final tasksAsync = ref.watch(tasksProvider);
+    final tasksAsync = ref.watch(userTaskProvider);
 
     return Scaffold(
       appBar: AppBar(

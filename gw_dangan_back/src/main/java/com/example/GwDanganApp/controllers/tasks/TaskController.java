@@ -40,6 +40,24 @@ public class TaskController {
         }
         return ResponseEntity.ok(tasks);
     }
+
+    @GetMapping("/user/{authorId}")
+    public ResponseEntity<List<Task>> getTaskByAuthorId(@PathVariable String authorId) {
+        try{
+        // ユーザーの存在確認(エラースローも含んでる)
+        userService.getUserById(authorId);
+        
+        List<Task> tasks = taskService.getTasksByAuthorId(authorId);
+        if (tasks.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(tasks);
+        }catch (Exception e) {
+            // ユーザーが見つからない場合は404 Not Found
+            return ResponseEntity.notFound().build();
+        }
+    }
     
     @PostMapping
     public ResponseEntity<Task> createTask(@Valid @RequestBody TaskRequestDto task) {

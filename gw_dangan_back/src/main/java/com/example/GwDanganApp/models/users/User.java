@@ -17,7 +17,6 @@ public class User {
     @Id
     private String firebaseUid;
 
-    @NotBlank(message = "Name is required")
     private String name;
 
     private String email;

@@ -1,12 +1,16 @@
 import 'dart:convert';
 // debugPrint用
 // import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:gw_dangan/models/user/user.dart';
 import 'package:gw_dangan/models/tasks/create_task.dart';
 import 'package:gw_dangan/models/tasks/task.dart';
 import 'package:http/http.dart' as http;
 
 class TaskRepository {
   final String baseUrl;
+  final firebase_auth.FirebaseAuth _firebaseAuth =
+      firebase_auth.FirebaseAuth.instance;
 
   TaskRepository({this.baseUrl = 'http://localhost:8080/api/tasks'});
 
@@ -43,7 +47,18 @@ class TaskRepository {
 
   Future<void> createTask(CreateTaskDto params) async {
     try {
-      final jsonParams = jsonEncode(params.toJson());
+      final firebaseUser = _firebaseAuth.currentUser;
+      if (firebaseUser == null) {
+        throw Exception('[Repository]ユーザーが認証されていません');
+      }
+
+      final task = {
+        'name': params.name,
+        'description': params.description,
+        'authorId': firebaseUser.uid,
+      };
+
+      final jsonParams = jsonEncode(task);
 
       final res = await http.post(Uri.parse(baseUrl),
           headers: {'Content-Type': 'application/json'}, body: jsonParams);

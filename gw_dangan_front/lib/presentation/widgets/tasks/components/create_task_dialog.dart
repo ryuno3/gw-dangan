@@ -33,6 +33,7 @@ class _CreateTaskDialogState extends ConsumerState<CreateTaskDialog> {
         final params = CreateTaskDto(
           name: _nameController.text,
           description: _descriptionController.text,
+          authorId: '',
         );
 
         await ref.read(tasksProvider.notifier).createTask(params);

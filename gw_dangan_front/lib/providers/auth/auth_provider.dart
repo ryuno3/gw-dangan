@@ -9,9 +9,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 
 // 認証状態を監視するStreamProvider
 final authStateProvider = StreamProvider<User?>((ref) {
-  return ref.watch(authRepositoryProvider).authStateChanges().map((user) {
-    return user;
-  });
+  return ref.watch(authRepositoryProvider).authStateChanges();
 });
 
 // サインインプロバイダー

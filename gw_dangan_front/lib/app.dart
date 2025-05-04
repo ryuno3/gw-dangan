@@ -12,30 +12,28 @@ class App extends ConsumerWidget {
     // 認証状態
     final authState = ref.watch(authStateProvider);
 
-    return ProviderScope(
-      child: MaterialApp(
-        title: 'GW Dangan App',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 197, 116, 58),
-          ),
-          useMaterial3: true,
+    return MaterialApp(
+      title: 'GW Dangan App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 197, 116, 58),
         ),
-        home: authState.when(
-          data: (user) {
-            if (user != null) {
-              return const TodoListWidget();
-            }
+        useMaterial3: true,
+      ),
+      home: authState.when(
+        data: (user) {
+          if (user != null) {
+            return const TodoListWidget();
+          }
 
-            return const SignInScreen();
-          },
-          loading: () => const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+          return const SignInScreen();
+        },
+        loading: () => const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
           ),
-          error: (_, __) => const SignInScreen(),
         ),
+        error: (_, __) => const SignInScreen(),
       ),
     );
   }

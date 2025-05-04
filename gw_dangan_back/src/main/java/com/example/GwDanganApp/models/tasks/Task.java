@@ -1,6 +1,7 @@
 package com.example.GwDanganApp.models.tasks;
 
 import com.example.GwDanganApp.models.users.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,18 +42,23 @@ public class Task {
     
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private  User author;
+    @JsonIgnore
+    private User author;
 
     public Task(String name, String description, User author) {
         this.name = name;
         this.description = description;
+        this.author = author;
         this.status = Status.NOT_STARTED;
         this.priority = Priority.LOW;
         this.isCompleted = false;
-        this.author = author;
     }
 
     public String getAuthorId() {
         return author.getFirebaseUid();
+    }
+
+    public String getAuthorName() {
+        return author.getName();
     }
 }

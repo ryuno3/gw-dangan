@@ -1,5 +1,7 @@
 package com.example.GwDanganApp.services.users;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.GwDanganApp.models.users.User;
@@ -13,11 +15,12 @@ public class UserService {
     private UserRepository userRepository;
 
     public User getUserById(String firebaseUid) {
-        User user = userRepository.findById(firebaseUid).get();
-        if (user == null) {
-            throw new UserNotFoundException("User not found with id: " + firebaseUid);
-        }
-        return user;
+        return userRepository.findById(firebaseUid)
+            .orElseThrow(() -> new UserNotFoundException("User not found with id: " + firebaseUid));
+    }
+
+    public List<User> getAllUserData() {
+        return userRepository.findAll();
     }
 
     public User createUser(User user) {

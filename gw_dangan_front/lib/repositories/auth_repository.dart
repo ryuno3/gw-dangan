@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart'
+import 'package:gw_dangan/models/user/create_user.dart';
+import 'package:gw_dangan/repositories/user_repository.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final UserRepository _userRepository = UserRepository();
+
 
   // 認証状態の変化を監視するStream
   Stream<User?> authStateChanges() {
@@ -31,10 +35,16 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(
+
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      if (userCredential.user != null) {
+        await _saveUserToServer(userCredential.user!);
+      }
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
     }
@@ -61,7 +71,11 @@ class AuthRepository {
       );
 
       // Firebase認証を実行
-      return await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential);
+      if (userCredential.user != null) {
+        await _saveUserToServer(userCredential.user!);
+      }
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
     }
@@ -72,7 +86,22 @@ class AuthRepository {
     await _googleSignIn.signOut();
     await _auth.signOut();
   }
+  // ユーザー情報をサーバーに保存
+  Future<void> _saveUserToServer(User firebaseUser) async {
+    try {
+      final user = CreateUserDto(
+        firebaseUid: firebaseUser.uid,
+        name: firebaseUser.displayName ?? '',
+        email: firebaseUser.email ?? '',
+      );
 
+      // ユーザー情報をサーバーに保存
+      await _userRepository.saveUser(user);
+    } catch (e) {
+// ignore: avoid_print
+      print('ユーザー情報の保存に失敗しました: $e');
+    }
+  }
   // 認証エラーを日本語に変換
   Exception _handleAuthException(FirebaseAuthException e) {
     switch (e.code) {

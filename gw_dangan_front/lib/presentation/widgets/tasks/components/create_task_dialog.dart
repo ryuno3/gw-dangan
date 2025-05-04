@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gw_dangan/models/tasks/create_task.dart';
-import 'package:gw_dangan/providers/tasks/tasks_notifier.dart';
+import 'package:gw_dangan/providers/tasks/user_tasks_provider.dart';
 
 class CreateTaskDialog extends ConsumerStatefulWidget {
   const CreateTaskDialog({super.key});
@@ -34,10 +34,9 @@ class _CreateTaskDialogState extends ConsumerState<CreateTaskDialog> {
           name: _nameController.text,
           description: _descriptionController.text,
           authorId: '',
-
         );
 
-        await ref.read(tasksProvider.notifier).createTask(params);
+        await ref.read(userTaskNotifierProvider.notifier).createTask(params);
 
         if (mounted) {
           Navigator.of(context).pop(true);

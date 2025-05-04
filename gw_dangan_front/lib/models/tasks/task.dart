@@ -36,4 +36,22 @@ class Task {
       'isCompleted': isCompleted,
     };
   }
+
+  Task copyWith({
+    int? id,
+    String? name,
+    String? description,
+    String? status,
+    String? priority,
+    bool? isCompleted,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      status: status ?? this.status,
+      priority: priority ?? this.priority,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
 }

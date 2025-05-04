@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart'
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gw_dangan/models/user/create_user.dart';
 import 'package:gw_dangan/repositories/user_repository.dart';
 
@@ -7,7 +7,6 @@ class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final UserRepository _userRepository = UserRepository();
-
 
   // 認証状態の変化を監視するStream
   Stream<User?> authStateChanges() {
@@ -35,7 +34,6 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-
       final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -72,8 +70,14 @@ class AuthRepository {
 
       // Firebase認証を実行
       final userCredential = await _auth.signInWithCredential(credential);
+
+      // ユーザー情報をサーバーに保存
       if (userCredential.user != null) {
-        await _saveUserToServer(userCredential.user!);
+        // ユーザーが新規登録の場合、サーバーにユーザー情報を保存
+        // 既存のユーザーの場合は、サーバーに保存しない
+        if (userCredential.additionalUserInfo?.isNewUser == true) {
+          await _saveUserToServer(userCredential.user!);
+        }
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -86,6 +90,7 @@ class AuthRepository {
     await _googleSignIn.signOut();
     await _auth.signOut();
   }
+
   // ユーザー情報をサーバーに保存
   Future<void> _saveUserToServer(User firebaseUser) async {
     try {
@@ -102,6 +107,7 @@ class AuthRepository {
       print('ユーザー情報の保存に失敗しました: $e');
     }
   }
+
   // 認証エラーを日本語に変換
   Exception _handleAuthException(FirebaseAuthException e) {
     switch (e.code) {

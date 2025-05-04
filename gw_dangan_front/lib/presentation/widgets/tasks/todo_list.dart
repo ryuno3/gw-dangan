@@ -5,7 +5,6 @@ import 'package:gw_dangan/presentation/widgets/tasks/components/add_task_button.
 import 'package:gw_dangan/presentation/widgets/tasks/view/empty_list_view.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/view/error_view.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/view/todo_list_view.dart';
-import 'package:gw_dangan/providers/tasks/tasks_notifier.dart';
 import 'package:gw_dangan/providers/tasks/user_tasks_provider.dart';
 
 class TodoListWidget extends ConsumerWidget {
@@ -14,7 +13,7 @@ class TodoListWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // タスクの非同期状態を取得
-    final tasksAsync = ref.watch(userTaskProvider);
+    final tasksAsync = ref.watch(userTaskNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -26,17 +25,17 @@ class TodoListWidget extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: 'タスクを更新',
-            onPressed: () => ref.read(tasksProvider.notifier).fetchAllTasks(),
+            onPressed: () =>
+                ref.read(userTaskNotifierProvider.notifier).fetchAllTasks(),
           ),
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () => ref.read(tasksProvider.notifier).fetchAllTasks(),
+        onRefresh: () =>
+            ref.read(userTaskNotifierProvider.notifier).fetchAllTasks(),
         child: tasksAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => ErrorView(
-            error: error,
-          ),
+          error: (e, _) => ErrorView(error: e.toString()),
           data: (tasks) => tasks.isEmpty
               ? const EmptyListView(message: 'タスクがありません。')
               : TodoListView(tasks: tasks),

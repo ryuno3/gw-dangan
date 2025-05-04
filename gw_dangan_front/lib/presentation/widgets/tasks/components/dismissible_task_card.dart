@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gw_dangan/models/tasks/task.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/components/task_card.dart';
 import 'package:gw_dangan/providers/tasks/tasks_notifier.dart';
+import 'package:gw_dangan/providers/tasks/user_tasks_provider.dart';
 
 class DismissibleTaskCard extends ConsumerWidget {
   final Task task;
@@ -53,7 +54,7 @@ class DismissibleTaskCard extends ConsumerWidget {
             false;
       },
       onDismissed: (direction) {
-        ref.read(tasksProvider.notifier).deleteTask(task.id);
+        ref.read(userTaskNotifierProvider.notifier).deleteTask(task.id);
 
         if (onDismissed != null) {
           onDismissed!();

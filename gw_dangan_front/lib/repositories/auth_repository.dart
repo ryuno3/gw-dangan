@@ -70,8 +70,14 @@ class AuthRepository {
 
       // Firebase認証を実行
       final userCredential = await _auth.signInWithCredential(credential);
+
+      // ユーザー情報をサーバーに保存
       if (userCredential.user != null) {
-        await _saveUserToServer(userCredential.user!);
+        // ユーザーが新規登録の場合、サーバーにユーザー情報を保存
+        // 既存のユーザーの場合は、サーバーに保存しない
+        if (userCredential.additionalUserInfo?.isNewUser == true) {
+          await _saveUserToServer(userCredential.user!);
+        }
       }
       return userCredential;
     } on FirebaseAuthException catch (e) {

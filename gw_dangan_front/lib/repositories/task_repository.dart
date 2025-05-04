@@ -86,6 +86,7 @@ class TaskRepository {
 
   Future<void> createTask(CreateTaskDto params) async {
     try {
+
       final firebaseUser = _firebaseAuth.currentUser;
       if (firebaseUser == null) {
         throw Exception('[Repository]ユーザーが認証されていません');

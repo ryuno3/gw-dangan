@@ -3,12 +3,15 @@ import 'package:gw_dangan/models/tasks/task.dart';
 class CreateTaskDto {
   final String name;
   final String description;
+
   final String authorId;
+
 
   CreateTaskDto({
     required this.name,
     required this.description,
     required this.authorId,
+
   });
 
   Map<String, dynamic> toJson() {

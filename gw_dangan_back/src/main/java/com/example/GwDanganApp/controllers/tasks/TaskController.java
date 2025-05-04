@@ -22,6 +22,8 @@ import com.example.GwDanganApp.services.users.UserService;
 
 import jakarta.validation.Valid;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -39,6 +41,7 @@ public class TaskController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(tasks);
+
     }
 
     @GetMapping("/user/{authorId}")
@@ -76,6 +79,7 @@ public class TaskController {
             // ユーザーが見つからない場合は400 Bad Request
             return ResponseEntity.badRequest().build();
         }
+
     }
     
     @GetMapping("/{id}")

@@ -3,14 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gw_dangan/presentation/screens/auth/sign_in_screen.dart';
 import 'package:gw_dangan/presentation/widgets/tasks/todo_list.dart';
 import 'package:gw_dangan/providers/auth/auth_provider.dart';
+
 import 'package:gw_dangan/providers/tasks/tasks_notifier.dart';
 import 'package:gw_dangan/providers/tasks/tasks_provider.dart';
+
 
 class App extends ConsumerWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     // 認証とタスク同期プロバイダーの初期化
     ref.watch(authTaskSyncProvider);
 
@@ -41,9 +44,11 @@ class App extends ConsumerWidget {
         loading: () => const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
+
           ),
         ),
         error: (_, __) => const SignInScreen(),
+
       ),
     );
   }
